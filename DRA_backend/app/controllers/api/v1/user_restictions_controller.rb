@@ -1,5 +1,5 @@
 class Api::V1::UserRestictionsController < ApplicationController
-  skip_before_action :authorized, only: [:create, :profile, :index]
+  skip_before_action :authorized, only: [:create, :profile, :index, :delete]
 
   def profile
     token = decoded_token
@@ -14,12 +14,24 @@ class Api::V1::UserRestictionsController < ApplicationController
 
   def create
     # Check that User does not double restriction
-    @user_restrictions = UserRestriction.create(user_restriction_params)
+    @user_restriction = UserRestriction.new(user_restriction_params)
+    @user_restriction.user = current_user
+    @user_restriction.save
 
+  end
+
+  def delete
+    # Check that User does not double restriction
+
+    user = current_user
+    restrictionId = user_restriction_params["restriction_id"]
+    @user_restrictions = UserRestriction.find_by(user_id: user.id, restriction_id: restrictionId.to_i)
+    @user_restrictions.destroy
+    render status: 200
   end
  
   private
   def user_restriction_params
-    params.require(:user).permit(:restriction)
+    params.require(:user).permit(:restriction_id)
   end
 end

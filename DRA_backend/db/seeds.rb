@@ -9,7 +9,7 @@ User.destroy_all
 Restriction.destroy_all
 UserRestriction.destroy_all
 
-ray = User.create(username: "ray", password: 'grandmaShark', email:"ray@rodz.com")
+ray = User.create(username: "ray", password: '123', email:"ray@rodz.com")
 
 dairy = Restriction.create(source: "Dairy", description:"milk, cheese, yoghurt, pasturized, dairy ")
 Restriction.create(source: "Vegetarian", description:"meat, beef, pork, chicken, poultry, fish, shrimp, crab, muscle, organ, hog, venison")
